@@ -120,25 +120,25 @@ $ docker exec -it redis-master-1 bash /init.sh
 ### 공통
 - [build.gradle.kts](./build.gradle.kts)
   - redisson 라이브러리 설정
-- [application.yaml]()
+- [application.yaml](./src/main/resources/application.yaml)
   - redis 접속 정보 설정
-- [StockService]()
+- [StockService](./src/main/kotlin/com/demo/redisson/service/StockService.kt)
   - 재고 관련 추상 클래스 정의 - 락을 사용하는 객체, 락을 사용하지 않는 객체 작성을 위함
 
 ### 락을 사용하지 않는 경우
-- [RedisConfigForNoLock]()
+- [RedisConfigForNoLock](./src/main/kotlin/com/demo/redisson/nolock/config/RedisConfigForNoLock.kt)
   - 기본으로 제공되는 Redis Client 정보 설정
-- [StockServiceForNoLock]()
+- [StockServiceForNoLock](./src/main/kotlin/com/demo/redisson/nolock/service/StockServiceForNoLock.kt)
   - 락을 사용하지 않고 재고 차감을 수행하는 Service 클래스
   - redisTemplate 사용
-- [StockServiceForNoLockTests]()
+- [StockServiceForNoLockTests](./src/test/kotlin/com/demo/redisson/nolock/service/StockServiceForNoLockTests.kt)
   - 락을 사용하지 않고 재고 차감을 수행하는 Service 테스트 클래스
 
 ### 락을 사용하는 경우
-- [RedissonConfigForLock]()
+- [RedissonConfigForLock](./src/main/kotlin/com/demo/redisson/lock/config/RedissonConfigForLock.kt)
   - 기본으로 제공되는 Redis Client 정보 설정
-- [StockServiceForLock]()
+- [StockServiceForLock](./src/main/kotlin/com/demo/redisson/lock/service/StockServiceForLock.kt)
   - 락을 사용하지 않고 재고 차감을 수행하는 Service 클래스
   - redissonClient 사용
-- [StockServiceForLockTests]()
+- [StockServiceForLockTests](./src/test/kotlin/com/demo/redisson/lock/StockServiceForLockTests.kt)
   - 락을 사용하지 않고 재고 차감을 수행하는 Service 테스트 클래스
