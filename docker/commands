@@ -1,0 +1,4 @@
+docker-compose up -d
+docker ps -f name=redis-
+docker exec -it redis-master-1 bash /init.sh
+docker exec -it redis-master-1 redis-cli --cluster check redis-master-1:7001

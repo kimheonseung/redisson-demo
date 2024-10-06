@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: redisson-demo
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 7777

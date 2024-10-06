@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+  redis-predixy:
+    image: haandol/predixy
+    container_name: redis-predixy
+    hostname: redis-predixy
+    command: predixy /predixy/conf/predixy.conf
+    volumes:
+      - ./predixy.conf:/predixy/conf/predixy.conf
+      - ./predixy-cluster.conf:/predixy/conf/predixy-cluster.conf
+      - ./predixy.log:/etc/logs/predixy.log
+    ports:
+      - "7777:7777"
+    networks:
+      - redis-net
+
+  redis-master-1:
+    container_name: redis-master-1
+    image: arm64v8/redis:latest
+    volumes:
+      - ./redis-master-1.conf:/redis-master-1.conf
+      - ./init.sh:/init.sh
+    command: sh -c "redis-server /redis-master-1.conf"
+    ports:
+      - "7001:7001"
+      - "17001:17001"
+    networks:
+      - redis-net
+
+  redis-master-2:
+    container_name: redis-master-2
+    image: arm64v8/redis:latest
+    volumes:
+      - ./redis-master-2.conf:/redis-master-2.conf
+    command: sh -c "sleep 3 && redis-server /redis-master-2.conf"
+    ports:
+      - "7002:7002"
+      - "17002:17002"
+    networks:
+      - redis-net
+
+  redis-master-3:
+    container_name: redis-master-3
+    image: arm64v8/redis:latest
+    volumes:
+      - ./redis-master-3.conf:/redis-master-3.conf
+    command: sh -c "sleep 3 && redis-server /redis-master-3.conf"
+    ports:
+      - "7003:7003"
+      - "17003:17003"
+    networks:
+      - redis-net
+
+  redis-replica-1:
+    container_name: redis-replica-1
+    image: arm64v8/redis:latest
+    volumes:
+      - ./redis-replica-1.conf:/redis-replica-1.conf
+    command: sh -c "sleep 3 && redis-server /redis-replica-1.conf"
+    ports:
+      - "7101:7101"
+      - "17101:17101"
+    networks:
+      - redis-net
+
+  redis-replica-2:
+    container_name: redis-replica-2
+    image: arm64v8/redis:latest
+    volumes:
+      - ./redis-replica-2.conf:/redis-replica-2.conf
+    command: sh -c "sleep 3 && redis-server /redis-replica-2.conf"
+    ports:
+      - "7102:7102"
+      - "17102:17102"
+    networks:
+      - redis-net
+
+  redis-replica-3:
+    container_name: redis-replica-3
+    image: arm64v8/redis:latest
+    volumes:
+      - ./redis-replica-3.conf:/redis-replica-3.conf
+    command: sh -c "sleep 3 && redis-server /redis-replica-3.conf"
+    ports:
+      - "7103:7103"
+      - "17103:17103"
+    networks:
+      - redis-net
+
+networks: 
+  redis-net: 
+    driver: bridge
