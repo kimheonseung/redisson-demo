@@ -118,7 +118,7 @@ $ docker exec -it redis-master-1 bash /init.sh
 ```
 
 ### 공통
-- [build.gradle.kts](./src/main/build.gradle.kts)
+- [build.gradle.kts](./build.gradle.kts)
   - redisson 라이브러리 설정
 - [application.yaml]()
   - redis 접속 정보 설정
