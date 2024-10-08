@@ -3,21 +3,19 @@ package com.demo.redisson.service
 import java.util.concurrent.TimeUnit
 
 abstract class StockService {
-    val KEY: String
-        get() = "STOCK"
     val TTL: Long
         get() = 10
     val TTL_TIMEUNIT: TimeUnit
         get() = TimeUnit.SECONDS
 
     abstract fun getThreadName(): String
-    abstract fun decrease(count: Int)
-    abstract fun setStockValue(value: Int)
-    abstract fun getStockValue(): Int
+    abstract fun decrease(key: String, count: Int)
+    abstract fun setStockValue(key: String, value: Int)
+    abstract fun getStockValue(key: String): Int
 
-    fun decreaseCommon(count: Int) {
+    fun decreaseCommon(key: String, count: Int) {
         val threadName = getThreadName()
-        val currentStock = getStockValue()
+        val currentStock = getStockValue(key)
         println("[${threadName}] 남은 재고: $currentStock")
 
         if (currentStock <= 0) {
@@ -25,6 +23,6 @@ abstract class StockService {
             return
         }
         println("[${threadName}] 진행중.. / 현재 재고: $currentStock")
-        setStockValue(currentStock - count)
+        setStockValue(key, currentStock - count)
     }
 }

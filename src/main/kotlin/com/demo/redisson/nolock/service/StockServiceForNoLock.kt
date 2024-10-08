@@ -10,16 +10,20 @@ class StockServiceForNoLock(
 ) : StockService() {
 
     override fun decrease(
+        key: String,
         count: Int,
     ) {
-        decreaseCommon(count)
+        decreaseCommon(key, count)
     }
 
     override fun setStockValue(
+        key: String,
         value: Int,
-    ) = redisTemplate.opsForValue().set(KEY, value.toString(), TTL, TTL_TIMEUNIT)
+    ) = redisTemplate.opsForValue().set(key, value.toString(), TTL, TTL_TIMEUNIT)
 
-    override fun getStockValue() = redisTemplate.opsForValue().get(KEY)!!.toInt()
+    override fun getStockValue(
+        key: String,
+    ) = redisTemplate.opsForValue().get(key)!!.toInt()
 
     override fun getThreadName(): String = Thread.currentThread().name
 

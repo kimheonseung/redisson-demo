@@ -21,6 +21,8 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.redisson:redisson-spring-boot-starter:3.16.3")
+    implementation("org.springframework:spring-aspects")
+    implementation("io.github.oshai:kotlin-logging:6.0.9")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

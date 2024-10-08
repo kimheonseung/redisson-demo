@@ -124,6 +124,14 @@ $ docker exec -it redis-master-1 bash /init.sh
   - redis 접속 정보 설정
 - [StockService](./src/main/kotlin/com/demo/redisson/service/StockService.kt)
   - 재고 관련 추상 클래스 정의 - 락을 사용하는 객체, 락을 사용하지 않는 객체 작성을 위함
+- [RedissonLocked](./src/main/kotlin/com/demo/redisson/annotation/RedissonLocked.kt)
+  - AOP를 위한 어노테이션 - 분산락 키, 획득 대기 시간, 점유 시간을 설정
+- [CustomSpringElUtils](./src/main/kotlin/com/demo/redisson/util/CustomSpringElUtils.kt)
+  - 분산락 키를 메소드 파라미터 기준으로 사용할 수 있도록 SpringEL 파싱을 도와주기 위함
+- [RedissonLockAop](./src/main/kotlin/com/demo/redisson/aop/RedissonLockAop.kt)
+  - ```@RedissonLocked``` 어노테이션이 사용된 부분을 어떻게 처리할지 AOP 형식으로 작성
+- [AopForTransaction](./src/main/kotlin/com/demo/redisson/aop/AopForTransaction.kt)
+  - 분산락 하위에서 별도로 독립적인 트랜잭션을 수행할 수 있도록 기능을 감싼 로직
 
 ### 락을 사용하지 않는 경우
 - [RedisConfigForNoLock](./src/main/kotlin/com/demo/redisson/nolock/config/RedisConfigForNoLock.kt)
@@ -138,7 +146,7 @@ $ docker exec -it redis-master-1 bash /init.sh
 - [RedissonConfigForLock](./src/main/kotlin/com/demo/redisson/lock/config/RedissonConfigForLock.kt)
   - 기본으로 제공되는 Redis Client 정보 설정
 - [StockServiceForLock](./src/main/kotlin/com/demo/redisson/lock/service/StockServiceForLock.kt)
-  - 락을 사용하지 않고 재고 차감을 수행하는 Service 클래스
-  - redissonClient 사용
+  - 락을 사용하고 재고 차감을 수행하는 Service 클래스
+  - ```@RedissonLocked``` 어노테이션 사용
 - [StockServiceForLockTests](./src/test/kotlin/com/demo/redisson/lock/StockServiceForLockTests.kt)
   - 락을 사용하지 않고 재고 차감을 수행하는 Service 테스트 클래스

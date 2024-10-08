@@ -20,26 +20,27 @@ class StockServiceForNoLockTests(
     val stockServiceForNoLock: StockServiceForNoLock,
 ) {
     val totalAmount: Int = 100
+    val key = "STOCK"
 
     inner class BuyerForNoLock(
         private val count: Int,
         private val countDownLatch: CountDownLatch,
     ) : Runnable {
         override fun run() {
-            stockServiceForNoLock.decrease(this.count)
+            stockServiceForNoLock.decrease(key, this.count)
             this.countDownLatch.countDown()
         }
     }
 
     @BeforeEach
     fun resetStock() {
-        this.stockServiceForNoLock.setStockValue(this.totalAmount)
+        this.stockServiceForNoLock.setStockValue(key, this.totalAmount)
     }
 
     @Test
     @Order(1)
     fun assertAmount() {
-        val redisAmount = stockServiceForNoLock.getStockValue()
+        val redisAmount = stockServiceForNoLock.getStockValue(key)
 
         assertEquals(this.totalAmount, redisAmount)
     }
@@ -49,9 +50,9 @@ class StockServiceForNoLockTests(
     fun assertDecrease() {
         val decreaseCount = 2
 
-        this.stockServiceForNoLock.decrease(decreaseCount)
+        this.stockServiceForNoLock.decrease(key, decreaseCount)
 
-        val decreasedAmount = this.stockServiceForNoLock.getStockValue()
+        val decreasedAmount = this.stockServiceForNoLock.getStockValue(key)
         assertEquals(this.totalAmount - decreaseCount, decreasedAmount)
     }
 
@@ -74,7 +75,7 @@ class StockServiceForNoLockTests(
 
         countDownLatch.await()
 
-        val currentStockValue = this.stockServiceForNoLock.getStockValue()
+        val currentStockValue = this.stockServiceForNoLock.getStockValue(key)
         assertNotEquals(0, currentStockValue)
     }
 }
